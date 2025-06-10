@@ -1,11 +1,11 @@
 Accessing My TMA2
 Overview
-I've set up my TMA2 on my local computer. To allow you to access it, I've configured port forwarding on my router on port 8088 & 443 for secure. You'll be able to connect directly to my site using the instructions below.
+I've set up my TMA2 on my local computer. To allow you to access it, I've configured port forwarding on my router on port xxxxxxfor secure. You'll be able to connect directly to my site using the instructions below.
 
 What You'll Need
 A standard web browser (Chrome, Firefox, Safari, etc.)
 
-My public IP address: 134.41.12.221
+My public IP address: xxxx
 
 Connection details below
 
