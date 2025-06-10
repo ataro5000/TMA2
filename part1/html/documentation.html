@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Documentation</title>
+	<link rel="stylesheet" href="../../shared/includes.css">
+	<link rel="stylesheet" href="../stylesheet/styles.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;700&display=swap"
+		rel="stylesheet">
+
+</head>
+
+<body>
+	<header>
+		<div class="header-left">
+			<div class="logo">
+				<h1>Part 1 - Documentation</h1>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="../../tma2.html">Home</a></li>
+					<li><a href="../index.php">Bookmarks</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<main class="documentation-container">
+		<h1>Documentation for Bookmark Manager</h1>
+		<section class="documentation-section" id="description">
+			<h2 class="documentation-header">1. Description</h2>
+			<p><b>Bookmark Manager</b> is a web application that allows users to manage their bookmarks securely. Users can
+				register, log in, add, edit, and delete bookmarks. The app also displays the top 10 most popular bookmarks based
+				on user interactions.</p>
+			<p>Key requirements include:</p>
+			<ul>
+				<li>User authentication (registration, login, logout).</li>
+				<li>Session management.</li>
+				<li>CRUD operations for bookmarks.</li>
+				<li>Input validation and security measures (e.g., password hashing, prepared statements).</li>
+				<li>Display of user-specific and globally popular bookmarks.</li>
+			</ul>
+		</section>
+
+		<section class="documentation-section" id="Analysis-And-Design">
+			<h2 class="documentation-header">2. Analysis and Design</h2>
+
+			<h3 class="documentation-subheader">2.1 Requirements Analysis</h3>
+			<p>The system must fulfill these core requirements:</p>
+			<ol>
+				<li><strong>User Authentication</strong>
+					<ul>
+						<li>Secure registration/login with password hashing</li>
+						<li>Session management for logged-in users</li>
+						<li>Redirect unauthenticated users to login</li>
+					</ul>
+				</li>
+				<li><strong>Bookmark Management</strong>
+					<ul>
+						<li>Display user-specific bookmarks after login</li>
+						<li>Show top 10 popular bookmarks globally</li>
+						<li>CRUD operations (Create, Read, Update, Delete)</li>
+					</ul>
+				</li>
+				<li><strong>Interface & UX</strong>
+					<ul>
+						<li>Consistent branding across all pages</li>
+						<li>Dynamic navigation based on auth state</li>
+						<li>Responsive forms with validation feedback</li>
+					</ul>
+				</li>
+				<li><strong>Validation & Security</strong>
+					<ul>
+						<li>Client-side URL validation (JavaScript)</li>
+						<li>Server-side input sanitization (PHP)</li>
+						<li>XSS/SQL injection prevention</li>
+					</ul>
+				</li>
+			</ol>
+
+			<h3 class="documentation-subheader">2.2 Architectural Design</h3>
+			<div class="doc-grid">
+				<div class="doc-card">
+					<h4 class="doc-card-header">Frontend Layer</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>HTML/CSS</strong>: Responsive layouts with shared styles</li>
+							<li><strong>JavaScript</strong>:
+								<ul>
+									<li>Form validation</li>
+									<li>Edit/delete interactions</li>
+									<li>Dynamic UI updates</li>
+								</ul>
+							</li>
+							<li><strong>Templating</strong>: PHP-embedded HTML for conditional rendering</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">Backend Layer</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Controller (controller.php)</strong>:
+								<ul>
+									<li>Handles CRUD operations</li>
+									<li>Manages session states</li>
+									<li>Calculates popular bookmarks</li>
+								</ul>
+							</li>
+							<li><strong>Database (db.php)</strong>:
+								<ul>
+									<li>MySQL connection handler</li>
+									<li>Prepared statements for security</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">Database Schema</h4>
+					<div class="doc-card-content">
+						<pre>
+users (<u>user_id</u>, username, password, created_at)
+bookmarks (<u>bookmark_id</u>, user_id, title, url, created_at)
+popular_bookmarks (<u>bookmark_id</u>, url, title, count, created_at)</pre>
+					</div>
+				</div>
+			</div>
+
+			<img src="../images/mySQLtables2.jpg" alt="Database Structure" class="db-structure">
+
+			<h3 class="documentation-subheader">2.3 Workflow Design</h3>
+			<div class="doc-workflow">
+				<div class="doc-flow-section">
+					<h4>Authentication Flow</h4>
+					<ol>
+						<li>Unauthenticated users redirected to login</li>
+						<li>Session established upon successful login</li>
+						<li>User state reflected in navigation</li>
+					</ol>
+				</div>
+
+				<div class="doc-flow-section">
+					<h4>Bookmark Operations</h4>
+					<ul>
+						<li><strong>Add</strong>:
+							<ol>
+								<li>Client-side URL validation</li>
+								<li>Server-side active URL check</li>
+								<li>Duplicate prevention</li>
+							</ol>
+						</li>
+						<li><strong>Edit</strong>:
+							<ul>
+								<li>Prefill form with existing data</li>
+								<li>Same validation as creation</li>
+							</ul>
+						</li>
+						<li><strong>Delete</strong>:
+							<ul>
+								<li>Confirmation mechanism</li>
+								<li>Popularity count decrement</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+				<div class="doc-flow-section">
+					<h4>Popular Bookmarks</h4>
+					<ol>
+						<li>Aggregate bookmark additions</li>
+						<li>Calculate top 10 URLs by usage</li>
+						<li>Update on every add/delete operation</li>
+					</ol>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">2.4 Security Design</h3>
+			<table class="doc-security-table">
+				<tr>
+					<th>Threat</th>
+					<th>Mitigation Strategy</th>
+				</tr>
+				<tr>
+					<td>SQL Injection</td>
+					<td>Prepared statements with parameter binding</td>
+				</tr>
+				<tr>
+					<td>XSS Attacks</td>
+					<td>Output encoding (htmlspecialchars)</td>
+				</tr>
+				<tr>
+					<td>Session Hijacking</td>
+					<td>Session regeneration on login</td>
+				</tr>
+				<tr>
+					<td>Data Tampering</td>
+					<td>User-bound operations (WHERE user_id=?)</td>
+				</tr>
+			</table>
+		</section>
+
+		<section class="documentation-section" id="Implementation">
+			<h2 class="documentation-header">3. Implementation</h2>
+
+			<h3 class="documentation-subheader">3.1 Key Features Implementation</h3>
+
+			<div class="doc-grid">
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.1 User Authentication</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Registration Flow</strong>:
+								<ul>
+									<li>Users submit credentials through <code>html/register.php</code></li>
+									<li><code>php/register.php</code> validates inputs, hashes passwords, and stores in database</li>
+									<li>Client-side password matching validation in <code>scripts.js</code></li>
+								</ul>
+							</li>
+							<li><strong>Login Flow</strong>:
+								<ul>
+									<li><code>html/login.php</code> collects credentials</li>
+									<li><code>php/login.php</code> verifies against database using password_verify()</li>
+									<li>AJAX submission handled in <code>scripts.js</code></li>
+								</ul>
+							</li>
+							<li><strong>Session Management</strong>:
+								<ul>
+									<li><code>init_session.php</code> configures secure sessions</li>
+									<li>CSRF protection with token generation/validation</li>
+									<li>Session destruction in <code>logout.php</code></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.2 Bookmark Operations</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Create</strong>:
+								<ul>
+									<li>Form submission in <code>index.php</code></li>
+									<li><code>controller.php</code> processes ADD action</li>
+									<li>Updates both user bookmarks and popular bookmarks tables</li>
+								</ul>
+							</li>
+							<li><strong>Read</strong>:
+								<ul>
+									<li><code>controller.php</code> fetches:
+										<ul>
+											<li>User-specific bookmarks by user_id</li>
+											<li>Top 10 popular bookmarks</li>
+										</ul>
+									</li>
+									<li>Displayed in <code>index.php</code> templates</li>
+								</ul>
+							</li>
+							<li><strong>Update</strong>:
+								<ul>
+									<li>JavaScript in <code>scripts.js</code> handles edit UI</li>
+									<li><code>controller.php</code> processes UPDATE with user validation</li>
+								</ul>
+							</li>
+							<li><strong>Delete</strong>:
+								<ul>
+									<li>Confirmation dialog in <code>scripts.js</code></li>
+									<li><code>controller.php</code> processes DELETE with user validation</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.3 Input Validation</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Client-Side</strong>:
+								<ul>
+									<li>URL format validation in <code>scripts.js</code></li>
+									<li>Password matching for registration</li>
+									<li>Required field checks</li>
+								</ul>
+							</li>
+							<li><strong>Server-Side</strong>:
+								<ul>
+									<li>CSRF token validation in all form handlers</li>
+									<li>URL validation with filter_var()</li>
+									<li>User ownership verification for edit/delete operations</li>
+									<li>Duplicate bookmark prevention</li>
+								</ul>
+							</li>
+							<li><strong>Security Measures</strong>:
+								<ul>
+									<li>Password hashing with password_hash()</li>
+									<li>Prepared statements throughout <code>controller.php</code></li>
+									<li>Output encoding with htmlspecialchars()</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">3.2 File Structure & Responsibilities</h3>
+			<table class="doc-file-table">
+				<tr>
+					<th>File</th>
+					<th>Location</th>
+					<th>Responsibilities</th>
+				</tr>
+				<tr>
+					<td>index.php</td>
+					<td>root</td>
+					<td>Main application interface, displays bookmarks, handles redirects</td>
+				</tr>
+				<tr>
+					<td>controller.php</td>
+					<td>php/</td>
+					<td>Processes all bookmark CRUD operations, fetches data</td>
+				</tr>
+				<tr>
+					<td>db.php</td>
+					<td>php/</td>
+					<td>Database connection setup and error handling</td>
+				</tr>
+				<tr>
+					<td>init_session.php</td>
+					<td>php/</td>
+					<td>Session configuration, CSRF token management</td>
+				</tr>
+				<tr>
+					<td>login.php</td>
+					<td>php/</td>
+					<td>Login authentication logic</td>
+				</tr>
+				<tr>
+					<td>logout.php</td>
+					<td>php/</td>
+					<td>Session termination</td>
+				</tr>
+				<tr>
+					<td>register.php</td>
+					<td>php/</td>
+					<td>User registration logic</td>
+				</tr>
+				<tr>
+					<td>scripts.js</td>
+					<td>javascript/</td>
+					<td>Client-side interactions, form validation, AJAX</td>
+				</tr>
+				<tr>
+					<td>login.php</td>
+					<td>html/</td>
+					<td>Login form interface</td>
+				</tr>
+				<tr>
+					<td>register.php</td>
+					<td>html/</td>
+					<td>Registration form interface</td>
+				</tr>
+				<tr>
+					<td>styles.css</td>
+					<td>stylesheet/</td>
+					<td>Application styling</td>
+				</tr>
+			</table>
+
+			<h3 class="documentation-subheader">3.3 Database Operations</h3>
+			<div class="doc-db-operations">
+				<div class="doc-db-component">
+					<h4>Users Table Operations</h4>
+					<ul>
+						<li><strong>Registration</strong>: INSERT into users table with hashed password</li>
+						<li><strong>Login</strong>: SELECT with password_verify() check</li>
+					</ul>
+				</div>
+				<div class="doc-db-component">
+					<h4>Bookmarks Table Operations</h4>
+					<ul>
+						<li><strong>Create</strong>: INSERT with user_id relationship</li>
+						<li><strong>Read</strong>: SELECT by user_id for personal bookmarks</li>
+						<li><strong>Update</strong>: UPDATE with user_id validation</li>
+						<li><strong>Delete</strong>: DELETE with user_id validation</li>
+					</ul>
+				</div>
+				<div class="doc-db-component">
+					<h4>Popular Bookmarks</h4>
+					<ul>
+						<li>UPSERT operation on popular_bookmarks table</li>
+						<li>Increment count on bookmark creation</li>
+						<li>SELECT with ORDER BY count DESC LIMIT 10</li>
+					</ul>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">3.4 Revisions</h3>
+			<ul>
+				<li>found working folder for XAMPP localhost</li>
+				<li>basic page no working links no style</li>
+				<li>updated some SQL on myphpmanager / databases for users and Bookmark</li>
+				<li>added in add-bookmark functionality , verified on DB</li>
+				<li>added in edit Bookmark functionality, verify usage</li>
+				<li>added delete bookmark functionality, verified usage.... - First hiccups, spent much time here. had a mistake
+					in the forms logic, under hidden name was delete-bookmark (this is the change) works now lots of
+					troubleshooting here. </li>
+				<li>added in register, login, logout. </li>
+				<li>verified, added in password verification under register user. </li>
+				<li>updated add bookmark to follow userid so it didnt just go to root user. $userId = $_SESSION['user_id']; from
+					$userId = 1;
+				</li>
+				<li>added user name showing on page </li>
+				<li>added popular_bookmarks table to db so it could track everyones favourite bookmarks and add them to show the
+					highest used. </li>
+				<li>moved php code to controller.php</li>
+				<li>troubleshoot popular bookmarks not correctly doing count logic</li>
+				<li>Hide login when you are logged in</li>
+				<li>update logic to force login on page entry.</li>
+				<li>files and flow seem to be good now. moving to styling. </li>
+				<li>styling mostly done now. Creating a cover page, linking p1 & p2</li>
+			</ul>
+		</section>
+
+		<section class="documentation-section" id="UserGuide">
+			<h2 class="documentation-header">4. User Guide</h2>
+
+			<h3 class="documentation-subheader">4.1 Usage</h3>
+			<h4>4.1.1 Registration:</h4>
+			<ul>
+				<li>Navigate to html/register.html.</li>
+				<li>Enter a username and password for your user login.</li>
+			</ul>
+			<h4>4.1.2 Login:</h4>
+			<ul>
+				<li>Visit html/login.html and enter credentials.</li>
+			</ul>
+			<h4>4.1.3 Managing Bookmarks:</h4>
+			<ul>
+				<li>Add: Fill the form on the main page.</li>
+				<li>Edit: Click "Edit" on a bookmark, modify fields, and save.</li>
+				<li>Delete: Click "Delete" and confirm.</li>
+			</ul>
+		</section>
+
+		<section class="documentation-section" id="Links">
+			<h2 class="documentation-header">5. Links</h2>
+			<p>5.1 This will send you to part 1 of the project.<a href="../index.php">PART 1</a></p>
+			<p>5.2 W3 School is a great reference for all things web developer.<a href="https://www.w3schools.com/">W3
+					Schools</a></p>
+			<p>5.3 Use this tool to validate your HTML files.<a href="https://validator.w3.org/">W3 Validator</a></p>
+			<p>5.3 Great reference for all things PHP<a href="https://www.phptutorial.net/">PHP tutorial</a></p>
+		</section>
+
+		<section class="documentation-section" id="Notes">
+			<h2 class="documentation-header">6. Notes</h2>
+			
+			<h3 class="documentation-subheader">6.1 General Notes/Lessons Learned</h3>
+			<h4>6.1.1 Development Process Insights</h4>
+			<p>Key lessons learned during development:</p>
+			<ul>
+					<li><strong>Incremental Development</strong>: Building features step-by-step and verifying each operation immediately saved significant debugging time later in the process.</li>
+					<li><strong>Environment Setup</strong>: Proper configuration of XAMPP/localhost environment was crucial before starting development.</li>
+					<li><strong>Debugging Techniques</strong>: Form logic errors (like hidden field naming) can cause major functionality issues that require systematic troubleshooting.</li>
+					<li><strong>Session Management</strong>: Switching from hardcoded user IDs ($userId = 1) to proper session-based authentication ($_SESSION['user_id']) was critical for security.</li>
+					<li><strong>Feature Planning</strong>: The popular bookmarks feature required adding a new table mid-development, highlighting the importance of upfront schema design.</li>
+			</ul>
+	
+			<h4>6.1.2 Security Implementation Notes</h4>
+			<p>Important security considerations addressed:</p>
+			<ul>
+					<li>Password hashing was implemented from the beginning using password_hash()</li>
+					<li>Session validation was added to prevent unauthorized access</li>
+					<li>User ownership verification was implemented for all CRUD operations</li>
+					<li>Input sanitization was added progressively as features were developed</li>
+			</ul>
+	
+			<h3 class="documentation-subheader">6.2 Common Error Messages & Solutions</h3>
+			<div class="warning">
+					<strong>Common Issue:</strong> Bookmark operations (add/edit/delete) not functioning as expected
+					<br><strong>Solution:</strong> Verify form field names match backend expectations, especially hidden fields
+			</div>
+			
+			<table class="doc-security-table">
+					<tr>
+							<th>Error</th>
+							<th>Cause</th>
+							<th>Solution</th>
+					</tr>
+					<tr>
+							<td><code>Bookmark operations not affecting database</code></td>
+							<td>Form field name mismatch between frontend and backend</td>
+							<td>Ensure all name attributes match PHP $_POST references</td>
+					</tr>
+					<tr>
+							<td><code>Popular bookmarks count incorrect</code></td>
+							<td>Logic errors in count increment/decrement</td>
+							<td>Verify UPSERT operations in popular_bookmarks table</td>
+					</tr>
+					<tr>
+							<td><code>User-specific bookmarks not showing</code></td>
+							<td>Hardcoded user IDs in development phase</td>
+							<td>Replace all $userId = 1 with $_SESSION['user_id']</td>
+					</tr>
+					<tr>
+							<td><code>Login state not persisting</code></td>
+							<td>Missing session_start() or incorrect session handling</td>
+							<td>Verify init_session.php is included on all pages</td>
+					</tr>
+			</table>
+	</section>
+		<a href="#top" class="back-to-top">⬆ Back to Top</a>
+	</main>
+
+	<footer>
+		<p>&copy; 2025 Bookmark Manager. All rights reserved.</p>
+	</footer>
+
+</body>
+
+</html>

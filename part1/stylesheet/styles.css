@@ -1,0 +1,85 @@
+ul#bookmark-list,
+ul#popular-list {
+  list-style: none;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+ul#bookmark-list li,
+ul#popular-list li {
+  background: var(--light-bg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.25s cubic-bezier(.4, 2, .6, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+ul#bookmark-list li:hover,
+ul#popular-list li:hover {
+  background: #e9ecef;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+ul#bookmark-list a,
+ul#popular-list a {
+  flex: 1;
+  color: var(--dark-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+ul#bookmark-list a:hover,
+ul#popular-list a:hover {
+  color: var(--secondary-color);
+}
+
+ul#bookmark-list a::before,
+ul#popular-list a::before {
+  content: "🔖";
+  margin-right: 0.5em;
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+button.edit-bookmark {
+  background: var(--secondary-color);
+  display: flex;
+  justify-content: right;
+  color: var(--white);
+  margin-right: 0.5em;
+}
+
+button.delete-bookmark {
+  background: #EF233C;
+  color: var(--white);
+  display: flex;
+  justify-content: right;
+}
+
+button.edit-bookmark,
+button.delete-bookmark {
+  border: none;
+  border-radius: 4px;
+  padding: 0.4em 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+button.edit-bookmark:hover {
+  background: var(--primary-color);
+  color: var(--white);
+  transform: scale(1.05);
+}
+
+button.delete-bookmark:hover {
+  background: #d90429;
+  color: var(--white);
+  transform: scale(1.05);
+}
+

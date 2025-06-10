@@ -1,0 +1,214 @@
+/* Documentation Specific Styles */
+.documentation-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.documentation-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.documentation-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.documentation-header {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 3px solid #3498db;
+}
+
+.documentation-subheader {
+  color: #3498db;
+  margin: 1.8rem 0 1rem 0;
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.doc-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #eaeaea;
+}
+
+.doc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.doc-card-header {
+  background: #2c3e50;
+  color: white;
+  padding: 1.4rem;
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.doc-card-content {
+  padding: 1.8rem;
+}
+
+.doc-card-content h4 {
+  color: #2c3e50;
+  margin-top: 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.doc-database-schema {
+  background-color: #f8f9fa;
+  padding: 1.4rem;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  border: 1px dashed #3498db;
+  margin: 1rem 0;
+}
+
+.doc-workflow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.doc-flow-section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.8rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #3498db;
+}
+
+.doc-security-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.doc-security-table th {
+  background-color: #3498db;
+  color: white;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.doc-security-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.doc-security-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.doc-security-table tr:hover {
+  background-color: #e3f2fd;
+}
+
+.doc-file-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.8rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.doc-file-table th,
+.doc-file-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.doc-file-table th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 600;
+}
+
+.doc-file-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.doc-file-table tr:hover {
+  background-color: #e3f2fd;
+}
+
+.doc-db-operations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.8rem;
+  margin-top: 1.5rem;
+}
+
+.doc-db-component {
+  background: #f0f7ff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #3498db;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.doc-db-component h4 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px dashed #3498db;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+
+.doc-architecture-diagram {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 1.5rem;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+  .doc-grid,
+  .doc-workflow,
+  .doc-db-operations {
+    grid-template-columns: 1fr;
+  }
+
+  .documentation-container {
+    padding: 1.5rem;
+  }
+
+  .documentation-section {
+    padding: 1.8rem;
+  }
+}
+
+pre {
+  overflow-x: auto;
+}

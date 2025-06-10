@@ -1,0 +1,4 @@
+/* Import all shared and section styles */
+@import url('styles.css');
+@import url('structure.css');
+@import url('documents.css');

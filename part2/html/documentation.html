@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Documentation</title>
+	<link rel="stylesheet" href="../../shared/includes.css">
+	<link rel="stylesheet" href="../stylesheet/styles.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;700&display=swap"
+		rel="stylesheet">
+
+</head>
+
+<body>
+	<header>
+		<div class="header-left">
+			<div class="logo">
+				<h1>Part 2 - Documentation</h1>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="../../tma2.html">Home</a></li>
+					<li><a href="../index.php">Dashboard</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<main class="documentation-container">
+		<h1>Documentation for Learning Manager</h1>
+		<section class="documentation-section" id="description">
+			<h2 class="documentation-header">1. Description</h2>
+			<p><b>Learning Management System (LMS)</b> is a comprehensive web application that enables Subject Matter Experts
+				(SMEs) to create and manage educational content, while allowing students to enroll in courses and progress
+				through structured learning materials. The system implements a custom Educational Markup Language (EML) for
+				content authoring and provides robust parsing capabilities to translate EML into browser-renderable HTML.</p>
+
+			<p>Key requirements include:</p>
+			<ul>
+				<li>Role-based access control (Teacher/Student)</li>
+				<li>Course/unit/content hierarchy management</li>
+				<li>EML content storage and parsing system</li>
+				<li>Student enrollment and progress tracking</li>
+				<li>Multimedia content support (video, audio, images)</li>
+				<li>Interactive quiz system with answer validation</li>
+				<li>Responsive progress visualization</li>
+			</ul>
+			<p>Additional system capabilities:</p>
+			<ul>
+				<li>Content sequencing and reordering functionality</li>
+				<li>Quiz management with answer validation</li>
+				<li>Progress tracking with completion markers</li>
+				<li>Cascading content deletion with dependency management</li>
+			</ul>
+		</section>
+
+		<section class="documentation-section" id="Analysis-And-Design">
+			<h2 class="documentation-header">2. Analysis and Design</h2>
+
+			<h3 class="documentation-subheader">2.1 Requirements Analysis</h3>
+			<p>The system must fulfill these core requirements:</p>
+			<ol>
+				<li><strong>Content Management</strong>
+					<ul>
+						<li>Hierarchical course/unit/content organization</li>
+						<li>EML-based content authoring and storage</li>
+						<li>Media file handling and URL support</li>
+						<li>Quiz creation with multiple choice answers</li>
+					</ul>
+				</li>
+				<li><strong>Learning Experience</strong>
+					<ul>
+						<li>Course enrollment system</li>
+						<li>Progress tracking and completion status</li>
+						<li>Sequential content navigation</li>
+						<li>Interactive quiz participation</li>
+					</ul>
+				</li>
+				<li><strong>User Management</strong>
+					<ul>
+						<li>Role differentiation (Teacher/Student)</li>
+						<li>Course ownership verification</li>
+						<li>Authentication and session management</li>
+						<li>CSRF protection</li>
+					</ul>
+				</li>
+				<li><strong>Data Management</strong>
+					<ul>
+						<li>Database storage for courses/units/content</li>
+						<li>EML-to-HTML parsing engine</li>
+						<li>Content ordering and sequencing</li>
+						<li>Cascading deletion for content relationships</li>
+					</ul>
+				</li>
+			</ol>
+
+			<h3 class="documentation-subheader">2.2 Architectural Design</h3>
+			<div class="doc-grid">
+				<div class="doc-card">
+					<h4 class="doc-card-header">Frontend Layer</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>HTML/CSS</strong>: Responsive course dashboard with progress visualization</li>
+							<li><strong>JavaScript</strong>:
+								<ul>
+									<li>Dynamic form handling (add_content.js)</li>
+									<li>Content reordering controls</li>
+									<li>Quiz interaction and validation</li>
+									<li>Progress tracking updates</li>
+								</ul>
+							</li>
+							<li><strong>EML Parser</strong>: PHP-based translation of EML to HTML</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">Backend Layer</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Controller Logic</strong>:
+								<ul>
+									<li>Role-based access control</li>
+									<li>Content sequencing and ordering</li>
+									<li>Progress tracking calculations</li>
+									<li>EML parsing operations</li>
+								</ul>
+							</li>
+							<li><strong>Database Handler</strong>:
+								<ul>
+									<li>MySQL database interactions</li>
+									<li>Prepared statements with parameter binding</li>
+									<li>Transaction management for data integrity</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">Database Schema</h4>
+					<div class="doc-card-content">
+						<pre>
+	users (<u>id</u>, username, password, role, created_at)
+	courses (<u>course_id</u>, course_name, created_at)
+	units (<u>unit_id</u>, course_id, unit_name, created_at)
+	content (<u>content_id</u>, unit_id, content_type, title, content_info, content_order, created_at)
+	teacher_courses (<u>teacher_id</u>, <u>course_id</u>)
+	student_enrollments (<u>student_id</u>, <u>course_id</u>)
+	user_progress (<u>user_id</u>, <u>content_id</u>, completed_at)
+	quiz_answers (<u>answer_id</u>, content_id, answer_text, is_correct)</pre>
+					</div>
+				</div>
+			</div>
+			<div class="doc-db-component">
+				<h4>Progress Tracking Operations</h4>
+				<ul>
+					<li><strong>Completion Marking</strong>: INSERT into user_progress with timestamp</li>
+					<li><strong>Progress Calculation</strong>: COUNT and JOIN operations across user_progress/content tables</li>
+				</ul>
+			</div><br>
+			<div class="doc-db-component">
+				<h4>Quiz Management</h4>
+				<ul>
+					<li><strong>Answer Validation</strong>: SELECT is_correct from quiz_answers</li>
+					<li><strong>Question Handling</strong>: Transaction-based updates for questions and answers</li>
+				</ul>
+			</div>
+
+			<img src="../uploads/mySQLtables2.jpg" alt="Architecture Diagram" class="doc-architecture-diagram">
+
+			<h3 class="documentation-subheader">2.3 Workflow Design</h3>
+			<div class="doc-workflow">
+				<div class="doc-flow-section">
+					<h4>Teacher Workflow</h4>
+					<ol>
+						<li>Create courses/units via multi-step form</li>
+						<li>Add content using EML syntax</li>
+						<li>Organize content sequence with drag-and-drop</li>
+						<li>Manage media uploads and external resources</li>
+						<li>Create quizzes with correct answer designation</li>
+					</ol>
+				</div>
+
+				<div class="doc-flow-section">
+					<h4>Student Workflow</h4>
+					<ol>
+						<li>Browse and enroll in available courses</li>
+						<li>Navigate course units and chapters</li>
+						<li>View parsed EML content and media</li>
+						<li>Complete quizzes and track progress</li>
+						<li>Mark chapters as completed</li>
+					</ol>
+				</div>
+
+				<div class="doc-flow-section">
+					<h4>Content Parsing Workflow</h4>
+					<ol>
+						<li>Teacher creates content using EML syntax</li>
+						<li>EML stored in database (content table)</li>
+						<li>PHP parser converts EML to HTML on retrieval</li>
+						<li>Browser renders parsed HTML content</li>
+						<li>Progress tracked per content item</li>
+					</ol>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">2.4 Security Design</h3>
+			<table class="doc-security-table">
+				<tr>
+					<th>Threat</th>
+					<th>Mitigation Strategy</th>
+				</tr>
+				<tr>
+					<td>Unauthorized Content Access</td>
+					<td>Role-based permissions and ownership checks</td>
+				</tr>
+				<tr>
+					<td>SQL Injection</td>
+					<td>Prepared statements with parameter binding</td>
+				</tr>
+				<tr>
+					<td>CSRF Attacks</td>
+					<td>Token validation in all form submissions</td>
+				</tr>
+				<tr>
+					<td>Session Hijacking</td>
+					<td>Secure session management with regeneration</td>
+				</tr>
+				<tr>
+					<td>XSS Vulnerabilities</td>
+					<td>Output encoding (htmlspecialchars) and content sanitization</td>
+				</tr>
+				<tr>
+					<td>Data Integrity</td>
+					<td>Database transactions with rollback capabilities</td>
+				</tr>
+			</table>
+		</section>
+
+		<section class="documentation-section" id="Implementation">
+			<h2 class="documentation-header">3. Implementation</h2>
+
+			<h3 class="documentation-subheader">3.1 Key Features Implementation</h3>
+
+			<div class="doc-grid">
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.1 User Authentication</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Registration Flow</strong>:
+								<ul>
+									<li>Users submit credentials through <code>register.php</code></li>
+									<li>Client-side password matching validation</li>
+									<li>Role selection (teacher/student)</li>
+									<li>Password hashing with bcrypt</li>
+								</ul>
+							</li>
+							<li><strong>Login Flow</strong>:
+								<ul>
+									<li>Asynchronous POST to <code>login.php</code></li>
+									<li>CSRF token protection</li>
+									<li>Role-based redirection</li>
+								</ul>
+							</li>
+							<li><strong>Secure Session Management</strong>:
+								<ul>
+									<li>Custom session name (<code>part2_session</code>) prevents conflicts</li>
+									<li>Session cookie parameters enforce HttpOnly and SameSite attributes</li>
+									<li>Session regeneration prevents fixation attacks</li>
+								</ul>
+							</li>
+							<li><strong>CSRF Protection</strong>:
+								<ul>
+									<li>Token generation with <code>random_bytes()</code> in all forms</li>
+									<li>Strict validation in form handlers like <code>login.php</code></li>
+									<li>Token embedding via hidden form fields</li>
+								</ul>
+							</li>
+							<li><strong>Password Security</strong>:
+								<ul>
+									<li>Bcrypt hashing with <code>password_hash()</code></li>
+									<li>Verification via <code>password_verify()</code></li>
+									<li>Client-side password matching validation</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.2 Course Management</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Course Creation</strong>:
+								<ul>
+									<li>Multi-step form in <code>add_content.php</code></li>
+									<li>Dynamic form handling with JavaScript</li>
+									<li>ON DUPLICATE KEY UPDATE for existing names</li>
+									<li>Media uploads with MIME type validation</li>
+									<li>Quiz creation with answer randomization</li>
+								</ul>
+							</li>
+							<li><strong>Content Organization</strong>:
+								<ul>
+									<li>Course → Unit → Title hierarchy</li>
+									<li>Content sequencing with <code>content_order</code></li>
+									<li>Teacher ownership verification</li>
+									<li>AJAX-based content reordering</li>
+
+								</ul>
+							</li>
+							<li><strong>Content Deletion</strong>:
+								<ul>
+									<li>Cascading deletion in <code>delete_content.php</code></li>
+									<li>Automatic cleanup of orphaned units/courses</li>
+									<li>Confirmation dialogs for destructive operations</li>
+								</ul>
+							</li>
+							<li><strong>Content Types</strong>:
+								<ul>
+									<li>Lessons (text content)</li>
+									<li>Quizzes with multiple-choice answers</li>
+									<li>Media (video, audio, pictures)</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="doc-card">
+					<h4 class="doc-card-header">3.1.3 Learning Experience</h4>
+					<div class="doc-card-content">
+						<ul>
+							<li><strong>Course Enrollment</strong>:
+								<ul>
+									<li>Available courses listing in <code>take_course.php</code></li>
+									<li>Teacher/student enrollment tracking</li>
+								</ul>
+							</li>
+							<li><strong>Progress Tracking</strong>:
+								<ul>
+									<li>AJAX-based completion marking</li>
+									<li>Visual progress indicators at multiple levels</li>
+									<li>Atomic transaction handling in <code>mark_complete.php</code></li>
+								</ul>
+							</li>
+							<li><strong>Quiz System</strong>:
+								<ul>
+									<li>Real-time answer validation via <code>check_quiz_answer.php</code></li>
+									<li>Answer randomization to prevent memorization</li>
+									<li>Immediate feedback with color-coded responses</li>
+								</ul>
+							</li>
+							<li><strong>Content Navigation</strong>:
+								<ul>
+									<li>Sequential chapter navigation</li>
+									<li>Next/previous title buttons</li>
+									<li>Back to course overview</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">3.2 File Structure & Responsibilities</h3>
+			<table class="doc-file-table">
+
+				<tr>
+					<th>File</th>
+					<th>Location</th>
+					<th>Responsibilities</th>
+				</tr>
+				<tr>
+					<td>index.php</td>
+					<td>Root</td>
+					<td>Shows dashboard for courses.</td>
+				</tr>
+				<tr>
+					<td>add_content.php</td>
+					<td>html/</td>
+					<td>Visual for forms</td>
+				</tr>
+				<tr>
+					<td>course.php</td>
+					<td>html/</td>
+					<td>Shows the Units in the picked course</td>
+				</tr>
+				<tr>
+					<td>register.php</td>
+					<td>html/</td>
+					<td>Splash for register</td>
+				</tr>
+				<tr>
+					<td>take_course.php</td>
+					<td>html/</td>
+					<td>Splash for course picker</td>
+				</tr>
+				<tr>
+					<td>view_content.php</td>
+					<td>html/</td>
+					<td>Splash for content viewing</td>
+				</tr>
+				<tr>
+					<td>add_content.php</td>
+					<td>html/</td>
+					<td>Visual for forms</td>
+				</tr>
+				<tr>
+					<td>init_session.php</td>
+					<td>php/</td>
+					<td>Secure session configuration and CSRF management</td>
+				</tr>
+				<tr>
+					<td>db.php</td>
+					<td>php/</td>
+					<td>Database connection with PDO and error handling</td>
+				</tr>
+				<tr>
+					<td>login.php</td>
+					<td>php/</td>
+					<td>User authentication with credential validation</td>
+				</tr>
+				<tr>
+					<td>register.php</td>
+					<td>php/</td>
+					<td>User registration with password hashing</td>
+				</tr>
+				<tr>
+					<td>logout.php</td>
+					<td>php/</td>
+					<td>Session termination and cleanup</td>
+				</tr>
+				<tr>
+					<td>mark_complete.php</td>
+					<td>php/</td>
+					<td>Progress tracking with transactional updates</td>
+				</tr>
+				<tr>
+					<td>check_quiz_answer.php</td>
+					<td>php/</td>
+					<td>Real-time quiz validation via JSON API</td>
+				</tr>
+				<tr>
+					<td>move_content.php</td>
+					<td>php/</td>
+					<td>Content reordering with transaction safety</td>
+				</tr>
+				<tr>
+					<td>delete_content.php</td>
+					<td>php/</td>
+					<td>Cascading content deletion with dependency checks</td>
+				</tr>
+				<tr>
+					<td>view_content.js</td>
+					<td>scripts/</td>
+					<td>Client-side content interaction and navigation</td>
+				</tr>
+				<tr>
+					<td>add_content.js</td>
+					<td>scripts/</td>
+					<td>Dynamic form handling for content creation</td>
+				</tr>
+			</table>
+
+			<h3 class="documentation-subheader">3.3 Database Operations</h3>
+			<div class="doc-db-operations">
+				<div class="doc-db-component">
+					<h4>Authentication Operations</h4>
+					<ul>
+						<li><strong>User Registration</strong>: INSERT with password_hash()</li>
+						<li><strong>Login Verification</strong>: SELECT with password_verify()</li>
+						<li><strong>Session Validation</strong>: Role-based access checks</li>
+					</ul>
+				</div>
+				<div class="doc-db-component">
+					<h4>Content Management</h4>
+					<ul>
+						<li><strong>Content Creation</strong>: ON DUPLICATE KEY UPDATE pattern</li>
+						<li><strong>Content Ordering</strong>: UPDATE with transaction locking</li>
+						<li><strong>Media Handling</strong>: File path storage with validation</li>
+					</ul>
+				</div>
+				<div class="doc-db-component">
+					<h4>Progress & Assessment</h4>
+					<ul>
+						<li><strong>Progress Tracking</strong>: Bulk INSERT IGNORE in mark_complete.php</li>
+						<li><strong>Quiz Validation</strong>: SELECT is_correct from quiz_answers</li>
+						<li><strong>Completion Status</strong>: COUNT operations with JOINs</li>
+					</ul>
+				</div>
+			</div>
+
+			<h3 class="documentation-subheader">3.4 Revisions</h3>
+			<ol>
+				<li>Implemented core authentication (login, register, logout) and database structures</li>
+				<li>Added CSRF protection logic for enhanced security (beyond project scope but best practice)</li>
+				<li>Updated SQL schema in phpMyAdmin with new database for courses and lessons</li>
+				<li>Created basic XML structure for EML (Educational Markup Language) testing</li>
+				<li>Built initial application shell</li>
+				<li>Fixed session conflict between Part1/Part2 by implementing unique session identifiers:
+					<pre>session_name('part1_session');  // For Part 1
+	session_name('part2_session');  // For Part 2</pre>
+				</li>
+				<li>Enhanced password policies to prevent single-character passwords</li>
+				<li>Designed XML-based content creation system for course sharing between users</li>
+				<li>Implemented CRUD operations for course content (similar to Part1 bookmark system)</li>
+				<li>Added content validation:
+					<ul>
+						<li>content_id validation with FILTER_VALIDATE_INT</li>
+						<li>content_type sanitization with FILTER_SANITIZE_STRING</li>
+					</ul>
+				</li>
+				<li>Improved error handling:
+					<ul>
+						<li>User-friendly error pages/messages</li>
+						<li>Error logging via error_log()</li>
+						<li>Fallback for unsupported content types</li>
+					</ul>
+				</li>
+				<li>Developed content creation UI:
+					<ul>
+						<li>Course selection dropdowns (existing/new)</li>
+						<li>Unit management with ordering</li>
+						<li>Lesson/quiz content containers</li>
+					</ul>
+				</li>
+				<li>Extensive parser adjustments for correct XML syntax handling</li>
+				<li>Fixed CSRF token misplacement issue during content creation</li>
+				<li>Implemented role-based access control:
+					<pre>ALTER TABLE users ADD COLUMN role ENUM('teacher', 'student') NOT NULL DEFAULT 'student';</pre>
+				</li>
+				<li>Added course navigation features:
+					<ul>
+						<li>Next/previous buttons</li>
+						<li>Mark-as-completed functionality</li>
+					</ul>
+				</li>
+				<li>Created teacher-course relationship tracking table</li>
+				<li>Implemented student enrollment system with dedicated table</li>
+				<li>Enhanced database structure:
+					<ul>
+						<li>Added DISTINCT clauses to SQL queries</li>
+						<li>Implemented UNIQUE constraints</li>
+						<li>Improved UI with conditional field disabling</li>
+					</ul>
+				</li>
+				<li>Added multimedia support:
+					<ul>
+						<li>Audio/video/image handling</li>
+						<li>JavaScript integration for media players</li>
+						<li>Direct link support (security considerations)</li>
+					</ul>
+				</li>
+				<li>Refactored JavaScript into modular files:
+					<ul>
+						<li>add_content.js</li>
+						<li>view_content.js</li>
+						<li>teacher_controls.js</li>
+					</ul>
+				</li>
+				<li>Implemented content management features:
+					<ul>
+						<li>Edit/delete functionality with ownership verification</li>
+						<li>Content reordering system</li>
+						<li>Cascading deletion logic:
+							<pre>ALTER TABLE content ADD CONSTRAINT fk_unit 
+	FOREIGN KEY (unit_id) REFERENCES units(unit_id) ON DELETE CASCADE;</pre>
+						</li>
+					</ul>
+				</li>
+				<li>Added content_order column for sequencing</li>
+				<li>Restructured media handling:
+					<ul>
+						<li>Media sections within lessons</li>
+						<li>Security-focused direct linking (non-embedded)</li>
+						<li>Teacher control refactoring</li>
+					</ul>
+				</li>
+				<li>Final UI/UX polishing and styling enhancements</li>
+			</ol>
+		</section>
+
+		<section class="documentation-section" id="UserGuide">
+			<h2 class="documentation-header">4. User Guide</h2>
+
+			<h3 class="documentation-subheader">4.1 Getting Started</h3>
+
+			<h4>4.1.1 Registration:</h4>
+			<ol>
+				<li>Navigate to <code>html/register.php</code></li>
+				<li>Enter a unique username and password</li>
+				<li>Select your role (Student or Teacher)</li>
+				<li>Confirm password and submit the form</li>
+				<li>You'll be automatically redirected to login page upon successful registration</li>
+			</ol>
+
+			<h4>4.1.2 Login:</h4>
+			<ol>
+				<li>Visit <code>html/login.php</code></li>
+				<li>Enter your registered credentials</li>
+				<li>Upon successful authentication, you'll be redirected to your dashboard</li>
+				<li>Teachers see an "Add Content" option; Students see "Take Course"</li>
+			</ol>
+
+			<h3 class="documentation-subheader">4.2 Student Experience</h3>
+
+			<h4>4.2.1 Course Enrollment:</h4>
+			<ol>
+				<li>From dashboard, click "Take Course" in navigation</li>
+				<li>Browse available courses in <code>take_course.php</code></li>
+				<li>Click "Enroll" on your desired course</li>
+				<li>Enrolled courses now appear on your dashboard</li>
+			</ol>
+
+			<h4>4.2.2 Learning Journey:</h4>
+			<ol>
+				<li>From dashboard, click any enrolled course</li>
+				<li>View course structure in <code>course.php</code> with progress indicators</li>
+				<li>Click any chapter to access content in <code>view_content.php</code></li>
+				<li>Navigate through lessons, media, and quizzes</li>
+				<li>Complete quizzes with immediate feedback</li>
+				<li>Mark chapters as complete when finished</li>
+				<li>Use navigation buttons to move between chapters</li>
+			</ol>
+
+			<h3 class="documentation-subheader">4.3 Teacher Experience</h3>
+
+			<h4>4.3.1 Creating Content:</h4>
+			<ol>
+				<li>Click "Add Content" in navigation to access <code>add_content.php</code></li>
+				<li>Step 1: Select existing course or create new</li>
+				<li>Step 2: Select existing unit or create new</li>
+				<li>Step 3: Select content type (Lesson, Quiz, Media)</li>
+				<li>For lessons: Enter chapter title and content</li>
+				<li>For quizzes: Enter question and four answers</li>
+				<li>For media: Upload file or provide URL</li>
+				<li>Submit to add content to your course</li>
+			</ol>
+
+			<h4>4.3.2 Managing Content:</h4>
+			<ol>
+				<li>Navigate to your course via dashboard</li>
+				<li>Access content through chapter links</li>
+				<li>Use edit buttons to modify lessons or quizzes</li>
+				<li>Reorder content with up/down arrows</li>
+				<li>Delete content with confirmation prompt</li>
+				<li>Note: Deleting last content in course removes entire course</li>
+			</ol>
+
+			<h4>4.3.3 Monitoring Progress:</h4>
+			<ol>
+				<li>View student enrollment counts in course listings</li>
+				<li>See progress indicators at unit level</li>
+				<li>Check chapter completion statuses</li>
+			</ol>
+
+			<h3 class="documentation-subheader">4.4 Account Management</h3>
+			<ul>
+				<li><strong>Logout:</strong> Click "Logout" in navigation to securely end session</li>
+				<li><strong>Session Timeout:</strong> Automatic after 24 hours of inactivity</li>
+				<li><strong>Password Security:</strong> Passwords are securely hashed (cannot be retrieved)</li>
+			</ul>
+		</section>
+
+		<section class="documentation-section" id="Links">
+			<h2 class="documentation-header">5. Links</h2>
+			<p>5.1 This will send you to part 1 of the project.<a href="../index.php">PART 1</a></p>
+			<p>5.2 W3 School is a great reference for all things web developer.<a href="https://www.w3schools.com/">W3
+					Schools</a></p>
+			<p>5.3 Use this tool to validate your HTML files.<a href="https://validator.w3.org/">W3 Validator</a></p>
+			<p>5.3 Great reference for all things PHP<a href="https://www.phptutorial.net/">PHP tutorial</a></p>
+		</section>
+
+		<section class="documentation-section" id="Notes">
+			<h2 class="documentation-header">6. Notes</h2>
+
+			<h3 class="documentation-subheader">6.1 General Notes/Lessons Learned</h3>
+			<h4>6.1.1 Development Process Insights</h4>
+			<ol>
+				<li><strong>Session Management Overhaul</strong>:
+					<ul>
+						<li>Implemented custom session names to resolve conflicts between project parts</li>
+						<li>Added secure session cookie parameters (HttpOnly, SameSite)</li>
+						<li><em>Lesson Learned</em>: Session conflicts can cause subtle authentication issues - explicit naming is
+							essential</li>
+					</ul>
+					<pre>session_name('part2_session');
+		session_set_cookie_params([/* secure params */]);</pre>
+				</li>
+
+				<li><strong>Security Enhancements</strong>:
+					<ul>
+						<li>Implemented comprehensive CSRF protection across all forms</li>
+						<li>Added password complexity requirements beyond basic validation</li>
+						<li>Implemented media upload validation with MIME type checking</li>
+						<li><em>Lesson Learned</em>: Security should be implemented in layers - no single measure is sufficient</li>
+					</ul>
+				</li>
+
+				<li><strong>Database Optimization</strong>:
+					<ul>
+						<li>Added cascading foreign key constraints for data integrity</li>
+						<li>Implemented transaction blocks for critical operations</li>
+						<li>Created optimized indexes for frequent JOIN operations</li>
+						<li><em>Lesson Learned</em>: Database performance issues only surface at scale - optimize early</li>
+					</ul>
+					<pre>ALTER TABLE content ADD CONSTRAINT fk_unit 
+		FOREIGN KEY (unit_id) REFERENCES units(unit_id) ON DELETE CASCADE;</pre>
+				</li>
+
+				<li><strong>Content Management Refinements</strong>:
+					<ul>
+						<li>Developed atomic content reordering system with transaction safety</li>
+						<li>Implemented cascading deletion with orphan cleanup</li>
+						<li>Added content_order sequencing with swap mechanism</li>
+						<li><em>Lesson Learned</em>: Content hierarchy changes require careful transaction design</li>
+					</ul>
+				</li>
+
+				<li><strong>Progress Tracking System</strong>:
+					<ul>
+						<li>Created bulk progress marking with IGNORE conflicts</li>
+						<li>Developed visual progress indicators at multiple levels</li>
+						<li>Optimized progress calculation queries</li>
+						<li><em>Lesson Learned</em>: Progress tracking requires denormalized counts for performance</li>
+					</ul>
+					<pre>INSERT IGNORE INTO user_progress ...</pre>
+				</li>
+
+				<li><strong>Quiz System Implementation</strong>:
+					<ul>
+						<li>Developed real-time answer validation API</li>
+						<li>Implemented answer randomization to prevent pattern recognition</li>
+						<li>Added AJAX-based feedback system</li>
+						<li><em>Lesson Learned</em>: Immediate feedback is crucial for learning retention</li>
+					</ul>
+				</li>
+
+				<li><strong>Media Handling Challenges</strong>:
+					<ul>
+						<li>Balanced embedded media vs. security with direct linking</li>
+						<li>Implemented file upload validation with size and type checks</li>
+						<li>Added URL-based media alternatives</li>
+						<li><em>Lesson Learned</em>: Browser media handling inconsistencies require flexible solutions</li>
+					</ul>
+				</li>
+
+				<li><strong>Error Handling Improvements</strong>:
+					<ul>
+						<li>Implemented JSON error responses for API endpoints</li>
+						<li>Added transaction rollback safety nets</li>
+						<li>Developed user-friendly error messages</li>
+						<li><em>Lesson Learned</em>: Different error handling needed for AJAX vs traditional requests</li>
+					</ul>
+				</li>
+
+				<li><strong>JavaScript Architecture</strong>:
+					<ul>
+						<li>Refactored into modular components (add_content.js, view_content.js)</li>
+						<li>Implemented dynamic form field management</li>
+						<li>Developed content control event delegation</li>
+						<li><em>Lesson Learned</em>: Progressive enhancement is crucial for complex forms</li>
+					</ul>
+				</li>
+
+				<li><strong>UI/UX Polish Pass</strong>:
+					<ul>
+						<li>Added progress visualization with CSS animations</li>
+						<li>Implemented responsive design refinements</li>
+						<li>Added "Back to Top" functionality across content pages</li>
+						<li><em>Lesson Learned</em>: Micro-interactions significantly improve perceived performance</li>
+					</ul>
+				</li>
+
+				<li><strong>Unexpected Challenges</strong>:
+					<ul>
+						<li>Media autoplay restrictions required user-initiated playback</li>
+						<li>Content ordering edge cases required transaction locking</li>
+						<li>Browser caching interfered with progress updates</li>
+						<li><em>Lesson Learned</em>: Real-world usage reveals edge cases not found in testing</li>
+					</ul>
+				</li>
+
+				<li><strong>Performance Optimizations</strong>:
+					<ul>
+						<li>Reduced database queries through intelligent JOINs</li>
+						<li>Implemented batched operations for progress tracking</li>
+						<li>Optimized COUNT operations with cached values</li>
+						<li><em>Lesson Learned</em>: N+1 query problems only surface with real data volumes</li>
+					</ul>
+				</li>
+			</ol>
+		</section>
+		<a href="#top" class="back-to-top">⬆ Back to Top</a>
+	</main>
+
+	<footer>
+		<p>&copy; 2025 Learning Management System. All rights reserved.</p>
+	</footer>
+
+</body>
+
+</html>
