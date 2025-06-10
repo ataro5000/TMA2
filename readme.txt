@@ -14,7 +14,7 @@ Open your web browser
 
 Enter this address in the URL bar:
 
-https://134.41.12.221/TMA2/tma2.html
+https://xxxxx
 Press Enter to load the site
 
 First-Time Access
@@ -47,7 +47,7 @@ Ensure you're online and can access other websites
 
 Verify the URL
 Make sure you entered exactly:
-https://134.41.12.221/TMA2/tma2.html
+https:/xxxx
 
 Try different browser
 Some browser extensions can interfere - try incognito mode
@@ -61,8 +61,8 @@ All data will be reset after evaluation
 Support
 If you encounter issues:
 
-Email: sedwards59@hotmail.com // sedwards8@learn.athabascau.ca
+Email: sxxxxxx
 
-Call: (306) 513-5426
+Call: xxxxxx
 
 Response time: Within 1 hour during evaluation period
